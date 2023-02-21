@@ -1,0 +1,28 @@
+---
+- name: Require lsp-config in packer
+  ansible.builtin.blockinfile:
+    path: "{{ nvim_dir }}/lua/config-packer.lua"
+    marker: "-- {mark} ANSIBLE MANAGED BLOCK"
+    insertbefore: "--> LSP plugins end"
+    block: |2
+        use 'neovim/nvim-lspconfig'           -- Collection of configurations for built-in LSP client
+        use 'hrsh7th/nvim-cmp'                -- Autocompletion plugin
+        use 'hrsh7th/cmp-nvim-lsp'            -- LSP source for nvim-cmp
+        use 'saadparwaiz1/cmp_luasnip'        -- Snippets source for nvim-cmp
+        use 'L3MON4D3/LuaSnip'                -- Snippets plugin
+        use 'onsails/lspkind.nvim'            -- Pictograms for lsp
+  notify: PackerSync
+
+- name: Copy lsp configuration file
+  ansible.builtin.copy:
+    src: files/lua/config-lsp.lua
+    dest: "{{ nvim_dir }}/lua/config-lsp.lua"
+    mode: "0644"
+  notify: PackerSync
+
+- name: Require lsp-config in init.lua
+  ansible.builtin.lineinfile:
+    path: "{{ nvim_dir }}/init.lua"
+    regexp: "require\\('config-lsp'\\)"
+    line: "require('config-lsp')"
+  notify: PackerSync

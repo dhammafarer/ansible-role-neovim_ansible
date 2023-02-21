@@ -15,24 +15,31 @@
 
 - name: Ensure nvim directory exists.
   ansible.builtin.file:
-    path: ~/.config/nvim
+    path: "{{ nvim_dir }}"
     state: directory
     mode: "0755"
 
 - name: Ensure nvim/lua directory exists.
   ansible.builtin.file:
-    path: ~/.config/nvim/lua
+    path: "{{ nvim_dir }}/lua"
     state: directory
     mode: "0755"
 
-- name: Copy configuration files
+- name: Copy base configuration files
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "0644"
-  notify: PackerSync
   loop:
     - src: files/init.lua
-      dest: ~/.config/nvim/init.lua
+      dest: "{{ nvim_dir }}/init.lua"
+
     - src: files/lua/config-packer.lua
-      dest: ~/.config/nvim/lua/config-packer.lua
+      dest: "{{ nvim_dir }}/lua/config-packer.lua"
+  notify: PackerSync
+
+- name: Install TreeSitter
+  ansible.builtin.import_tasks: "treesitter.yml"
+
+- name: Install LSP
+  ansible.builtin.import_tasks: "lsp.yml"

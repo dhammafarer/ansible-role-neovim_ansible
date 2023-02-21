@@ -1,0 +1,32 @@
+---
+- name: Ensure TreeSitter dependencies are installed.
+  ansible.builtin.dnf:
+    name:
+      - "@Development tools"
+      - libstdc++
+    state: present
+
+- name: Insert TreeSiter block in config-packer.lua
+  ansible.builtin.blockinfile:
+    path: "{{ nvim_dir }}/lua/config-packer.lua"
+    marker: "-- {mark} ANSIBLE MANAGED BLOCK"
+    insertbefore: "--> regular plugins end"
+    block: |2
+        use {
+              'nvim-treesitter/nvim-treesitter',
+              run = ':TSUpdate'
+        }
+  notify: PackerSync
+
+- name: Copy TreeSitter configuration files.
+  ansible.builtin.copy:
+    src: files/lua/config-treesitter.lua
+    dest: "{{ nvim_dir }}/lua/config-treesitter.lua"
+    mode: "0644"
+  notify: PackerSync
+
+- name: Require TreeSitter in init.lua
+  ansible.builtin.lineinfile:
+    path: "{{ nvim_dir }}/init.lua"
+    regexp: "^require\\('config-treesitter'\\)"
+    line: "require('config-treesitter')"
