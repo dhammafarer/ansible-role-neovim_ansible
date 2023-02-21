@@ -1,0 +1,38 @@
+---
+- name: Ensure that essential packages are installed.
+  ansible.builtin.package:
+    name:
+      - git
+      - neovim
+    state: present
+
+- name: Ensure that packer is installed
+  ansible.builtin.git:
+    repo: https://github.com/wbthomason/packer.nvim
+    dest: ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+    depth: 1
+    version: master
+
+- name: Ensure nvim directory exists.
+  ansible.builtin.file:
+    path: ~/.config/nvim
+    state: directory
+    mode: "0755"
+
+- name: Ensure nvim/lua directory exists.
+  ansible.builtin.file:
+    path: ~/.config/nvim/lua
+    state: directory
+    mode: "0755"
+
+- name: Copy configuration files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+  notify: PackerSync
+  loop:
+    - src: files/init.lua
+      dest: ~/.config/nvim/init.lua
+    - src: files/lua/config-packer.lua
+      dest: ~/.config/nvim/lua/config-packer.lua

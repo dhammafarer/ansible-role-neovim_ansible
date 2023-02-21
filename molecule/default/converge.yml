@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+
+  tasks:
+    - name: Ensure EPEL repo is enabled.
+      ansible.builtin.dnf:
+        name: epel-release
+        state: present
+
+    - name: "Include palekiwi.neovim_ansible"
+      ansible.builtin.include_role:
+        name: "palekiwi.neovim_ansible"
