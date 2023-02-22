@@ -1,2 +1,10 @@
 ---
 nvim_dir: ~/.config/nvim
+install_treesitter: true
+
+lsp_servers:
+  - name: "ansiblels"
+    package: "@ansible/ansible-language-server"
+
+  - name: "pyright"
+    package: "pyright"

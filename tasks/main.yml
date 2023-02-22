@@ -38,8 +38,9 @@
       dest: "{{ nvim_dir }}/lua/config-packer.lua"
   notify: PackerSync
 
-- name: Install TreeSitter
-  ansible.builtin.import_tasks: "treesitter.yml"
-
 - name: Install LSP
   ansible.builtin.import_tasks: "lsp.yml"
+
+- name: Install TreeSitter
+  ansible.builtin.import_tasks: "treesitter.yml"
+  when: install_treesitter

@@ -5,8 +5,7 @@ driver:
   name: podman
 platforms:
   - name: instance
-    #image: quay.io/rockylinux/rockylinux:9
-    image: quay.io/centos/centos:stream8
+    image: quay.io/rockylinux/rockylinux:9
     pre_build_image: true
 provisioner:
   name: ansible
