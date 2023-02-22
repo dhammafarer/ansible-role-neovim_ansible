@@ -5,6 +5,7 @@
       - "@Development tools"
       - libstdc++
     state: present
+  become: true
 
 - name: Insert TreeSiter block in config-packer.lua
   ansible.builtin.blockinfile:

@@ -5,6 +5,7 @@
       - npm
       - python3-pip
     state: present
+  become: true
 
 - name: Ensure ansible-lint is installed.
   ansible.builtin.pip:
@@ -46,6 +47,7 @@
     state: present
   loop: "{{ lsp_servers }}"
   when: "lsp_servers is defined and (lsp_servers | length > 0)"
+  become: true
 
 - name: Add servers to config-lsp.lua
   ansible.builtin.blockinfile:

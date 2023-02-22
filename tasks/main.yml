@@ -5,6 +5,7 @@
       - git
       - neovim
     state: present
+  become: true
 
 - name: Ensure that packer is installed
   ansible.builtin.git:
