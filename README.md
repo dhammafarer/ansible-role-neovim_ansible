@@ -22,11 +22,11 @@ Doesn't require any roles.
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Usage: clone the repo into the ./roles folder. Include the role in a playbook. Run on localhost.
 
-    - hosts: servers
+    - hosts: localhost
       roles:
-         - palekiwi.neovim_ansible
+         - neovim_ansible
 
 License
 -------

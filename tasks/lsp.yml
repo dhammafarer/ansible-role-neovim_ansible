@@ -12,6 +12,7 @@
       - ansible
       - ansible-lint
     state: present
+    extra_args: --user
 
 - name: Require lsp-config in packer
   ansible.builtin.blockinfile:
