@@ -3,6 +3,11 @@
   hosts: all
 
   tasks:
+    - name: Ensure sudo is installed.
+      ansible.builtin.dnf:
+        name: sudo
+        state: present
+
     - name: Ensure EPEL repo is enabled.
       ansible.builtin.dnf:
         name: epel-release
