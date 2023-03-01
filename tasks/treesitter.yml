@@ -19,16 +19,6 @@
         }
   notify: PackerSync
 
-- name: Test block insert
-  ansible.builtin.blockinfile:
-    path: "{{ nvim_dir }}/lua/config-packer.lua"
-    marker: "-- {mark} ANSIBLE MANAGED BLOCK: Something"
-    state: absent
-    insertbefore: "--> regular plugins end"
-    block: |2
-      -- use { 'nvim-treesitter/nvim-treesitter' }
-  notify: PackerSync
-
 - name: Copy TreeSitter configuration files.
   ansible.builtin.copy:
     src: files/lua/config-treesitter.lua
